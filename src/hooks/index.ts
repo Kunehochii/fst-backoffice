@@ -62,4 +62,12 @@ export {
   buildDayFilters as buildDeliveryDayFilters,
   DELIVERY_QUERY_KEYS,
 } from "./use-delivery";
+export {
+  useAttachments,
+  useAttachment,
+  useCreateAttachment,
+  useDeleteAttachment,
+  filterAttachmentsByCashier,
+  groupAttachmentsByType,
+} from "./use-attachments";
 export { useDebounce } from "./use-debounce";

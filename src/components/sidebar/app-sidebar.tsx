@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   LifeBuoy,
   Package,
+  Paperclip,
   Receipt,
   Send,
   ShoppingCart,
@@ -70,6 +71,11 @@ const data = {
       title: "Profit",
       url: "/dashboard/profit",
       icon: TrendingUp,
+    },
+    {
+      title: "Attachments",
+      url: "/dashboard/attachments",
+      icon: Paperclip,
     },
   ],
   navSecondary: [

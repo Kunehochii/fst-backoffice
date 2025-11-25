@@ -43,6 +43,12 @@ export const API_ROUTES = {
     GET_BUSINESS: "/delivery/business",
     GET_BY_ID: (id: string) => `/delivery/${id}`,
   },
+  ATTACHMENTS: {
+    GET_ALL: "/upload",
+    GET_BY_ID: (id: string) => `/upload/${id}`,
+    CREATE: "/upload/business",
+    DELETE: (id: string) => `/upload/${id}`,
+  },
   // Add more routes as needed
 } as const;
 
@@ -147,6 +153,11 @@ export const QUERY_KEYS = {
     LIST: (filters?: Record<string, unknown>) => ["delivery", "list", filters],
     BUSINESS: (filters?: Record<string, unknown>) => ["delivery", "business", filters],
     DETAIL: (id: string) => ["delivery", "detail", id],
+  },
+  ATTACHMENTS: {
+    ALL: ["attachments"],
+    LIST: (type?: string) => ["attachments", "list", { type }],
+    DETAIL: (id: string) => ["attachments", "detail", id],
   },
   // Add more query keys as needed
 } as const;
