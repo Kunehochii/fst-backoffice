@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Generated files
+*.lock
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# IDE
+.idea/
+.vscode/
+
+# Misc
+coverage/
+.env*
+
+# shadcn/ui components (auto-generated)
+src/components/ui/
