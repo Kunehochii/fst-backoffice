@@ -35,6 +35,10 @@ export const API_ROUTES = {
     GET_TOTAL: "/sales-check/total",
     GET_ALL_CASHIERS: "/sales-check/cashiers/all",
   },
+  PROFIT: {
+    GET_ALL: "/profit",
+    GET_ALL_CASHIERS: "/profit/cashiers/all",
+  },
   // Add more routes as needed
 } as const;
 
@@ -117,6 +121,17 @@ export const QUERY_KEYS = {
     ALL_CASHIERS: (filters?: Record<string, unknown>) => ["sales-check", "cashiers", filters],
     CASHIER: (cashierId: string, filters?: Record<string, unknown>) => [
       "sales-check",
+      "cashier",
+      cashierId,
+      filters,
+    ],
+  },
+  PROFIT: {
+    ALL: ["profit"],
+    LIST: (filters?: Record<string, unknown>) => ["profit", "list", filters],
+    ALL_CASHIERS: (filters?: Record<string, unknown>) => ["profit", "cashiers", filters],
+    CASHIER: (cashierId: string, filters?: Record<string, unknown>) => [
+      "profit",
       "cashier",
       cashierId,
       filters,
