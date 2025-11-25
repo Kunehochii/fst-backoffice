@@ -38,4 +38,13 @@ export {
   useCreateOrUpdateBillCount,
   getDateForApi,
 } from "./use-bills";
+export {
+  useSalesCheck,
+  useTotalSales,
+  useAllCashierSales,
+  useSalesRealtimeSubscription,
+  useCashierSalesRealtimeSubscription,
+  buildDayFilters,
+  SALES_QUERY_KEYS,
+} from "./use-sales-check";
 export { useDebounce } from "./use-debounce";

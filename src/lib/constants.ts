@@ -30,6 +30,11 @@ export const API_ROUTES = {
     DELETE: (id: string) => `/products/${id}`,
     TRANSFER: "/products/transfer",
   },
+  SALES_CHECK: {
+    GET_ALL: "/sales-check",
+    GET_TOTAL: "/sales-check/total",
+    GET_ALL_CASHIERS: "/sales-check/cashiers/all",
+  },
   // Add more routes as needed
 } as const;
 
@@ -51,6 +56,7 @@ export const APP_ROUTES = {
   PRODUCTS: "/dashboard/products",
   PRODUCTS_CASHIER: (cashierId: string) => `/dashboard/products/${cashierId}`,
   BILLS: "/dashboard/bills",
+  SALES_CHECK: "/dashboard/sales-check",
   // Add more routes as needed
 } as const;
 
@@ -103,6 +109,18 @@ export const QUERY_KEYS = {
     LIST: (date: string) => ["bills", "list", { date }],
     CASHIER: (cashierId: string, date: string) => ["bills", "cashier", cashierId, { date }],
     DETAIL: (id: string) => ["bills", "detail", id],
+  },
+  SALES_CHECK: {
+    ALL: ["sales-check"],
+    LIST: (filters?: Record<string, unknown>) => ["sales-check", "list", filters],
+    TOTAL: (filters?: Record<string, unknown>) => ["sales-check", "total", filters],
+    ALL_CASHIERS: (filters?: Record<string, unknown>) => ["sales-check", "cashiers", filters],
+    CASHIER: (cashierId: string, filters?: Record<string, unknown>) => [
+      "sales-check",
+      "cashier",
+      cashierId,
+      filters,
+    ],
   },
   // Add more query keys as needed
 } as const;

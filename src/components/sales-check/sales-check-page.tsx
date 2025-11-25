@@ -1,0 +1,267 @@
+"use client";
+
+import { useState } from "react";
+import { Search, ShoppingCart, Store, ChevronRight, Calendar } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useCashiers, useDebounce, useBusiness } from "@/hooks";
+import { useSalesRealtimeSubscription } from "@/hooks/use-sales-check";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import type { Cashier } from "@/types/auth.types";
+
+type SalesTab = "sales" | "voided";
+
+interface SalesCheckPageProps {
+  selectedDate: Date;
+  onDateChange: (date: Date) => void;
+  onSelectCashier: (cashier: Cashier) => void;
+  activeTab: SalesTab;
+  onTabChange: (tab: SalesTab) => void;
+}
+
+export function SalesCheckPage({
+  selectedDate,
+  onDateChange,
+  onSelectCashier,
+  activeTab,
+  onTabChange,
+}: SalesCheckPageProps) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearch = useDebounce(searchTerm, 300);
+  const { businessId } = useBusiness();
+
+  const { data: cashiers, isLoading } = useCashiers();
+
+  // Subscribe to real-time sales updates
+  useSalesRealtimeSubscription(businessId ?? undefined);
+
+  // Filter cashiers based on search
+  const filteredCashiers = cashiers?.filter(
+    (cashier) =>
+      cashier.branchName.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      cashier.username.toLowerCase().includes(debouncedSearch.toLowerCase())
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+            <ShoppingCart className="h-6 w-6" />
+            Sales Check
+          </h1>
+          <p className="text-muted-foreground">
+            Monitor and verify sales across your branches in real-time
+          </p>
+        </div>
+
+        {/* Date Picker */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={cn(
+                "w-[240px] justify-start text-left font-normal",
+                !selectedDate && "text-muted-foreground"
+              )}
+            >
+              <Calendar className="mr-2 h-4 w-4" />
+              {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="end">
+            <CalendarComponent
+              mode="single"
+              selected={selectedDate}
+              onSelect={(date) => date && onDateChange(date)}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      {/* Tabs for Sales / Voided */}
+      <Tabs value={activeTab} onValueChange={(v) => onTabChange(v as SalesTab)}>
+        <TabsList>
+          <TabsTrigger value="sales">Sales</TabsTrigger>
+          <TabsTrigger value="voided">Voided Sales</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="sales" className="mt-4">
+          {/* Branch Selection Card */}
+          <BranchSelectionCard
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            cashiers={filteredCashiers}
+            isLoading={isLoading}
+            selectedDate={selectedDate}
+            onSelectCashier={onSelectCashier}
+            debouncedSearch={debouncedSearch}
+            tabType="sales"
+          />
+        </TabsContent>
+
+        <TabsContent value="voided" className="mt-4">
+          {/* Branch Selection Card for Voided */}
+          <BranchSelectionCard
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            cashiers={filteredCashiers}
+            isLoading={isLoading}
+            selectedDate={selectedDate}
+            onSelectCashier={onSelectCashier}
+            debouncedSearch={debouncedSearch}
+            tabType="voided"
+          />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+interface BranchSelectionCardProps {
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  cashiers: Cashier[] | undefined;
+  isLoading: boolean;
+  selectedDate: Date;
+  onSelectCashier: (cashier: Cashier) => void;
+  debouncedSearch: string;
+  tabType: "sales" | "voided";
+}
+
+function BranchSelectionCard({
+  searchTerm,
+  onSearchChange,
+  cashiers,
+  isLoading,
+  selectedDate,
+  onSelectCashier,
+  debouncedSearch,
+  tabType,
+}: BranchSelectionCardProps) {
+  const description =
+    tabType === "sales"
+      ? `View sales data for ${format(selectedDate, "MMMM d, yyyy")}`
+      : `View voided sales for ${format(selectedDate, "MMMM d, yyyy")}`;
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <Store className="h-5 w-5" />
+              Select a Branch
+            </CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </div>
+          <div className="relative w-full sm:w-72">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search branches..."
+              value={searchTerm}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <BranchListSkeleton />
+        ) : cashiers && cashiers.length > 0 ? (
+          <div className="space-y-2">
+            {cashiers.map((cashier) => (
+              <BranchCard
+                key={cashier.id}
+                cashier={cashier}
+                onClick={() => onSelectCashier(cashier)}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState hasSearch={!!debouncedSearch} />
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+interface BranchCardProps {
+  cashier: Cashier;
+  onClick: () => void;
+}
+
+function BranchCard({ cashier, onClick }: BranchCardProps) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors text-left group"
+    >
+      <div className="flex items-center gap-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+          <Store className="h-6 w-6 text-primary" />
+        </div>
+        <div>
+          <h3 className="font-semibold">{cashier.branchName}</h3>
+          <p className="text-sm text-muted-foreground">@{cashier.username}</p>
+        </div>
+      </div>
+      <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+    </button>
+  );
+}
+
+function BranchListSkeleton() {
+  return (
+    <div className="space-y-2">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="flex items-center gap-4 p-4 rounded-lg border">
+          <Skeleton className="h-12 w-12 rounded-lg" />
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+interface EmptyStateProps {
+  hasSearch: boolean;
+}
+
+function EmptyState({ hasSearch }: EmptyStateProps) {
+  if (hasSearch) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <div className="p-4 bg-muted/50 rounded-full mb-4">
+          <Search className="h-8 w-8 text-muted-foreground" />
+        </div>
+        <p className="text-lg font-medium text-muted-foreground">No branches found</p>
+        <p className="text-sm text-muted-foreground/70">Try adjusting your search term</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center py-12 text-center">
+      <div className="p-4 bg-muted/50 rounded-full mb-4">
+        <Store className="h-8 w-8 text-muted-foreground" />
+      </div>
+      <p className="text-lg font-medium text-muted-foreground">No branches yet</p>
+      <p className="text-sm text-muted-foreground/70">
+        Create a cashier first to start tracking sales
+      </p>
+    </div>
+  );
+}
