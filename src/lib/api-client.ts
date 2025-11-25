@@ -3,6 +3,48 @@ import { env } from "@/lib/env";
 import { createClient } from "@/lib/supabase/client";
 import type { ApiError } from "@/types";
 
+// =============================================================================
+// DATE TRANSFORMATION
+// =============================================================================
+// The backend sends ISO 8601 UTC strings. We can optionally transform them
+// to Date objects, but we keep them as strings by default and use utilities
+// in src/utils for display formatting.
+// =============================================================================
+
+/**
+ * ISO 8601 date string regex pattern
+ * Matches: "2025-11-24T16:00:00.000Z"
+ */
+const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
+
+/**
+ * Recursively transform ISO date strings to Date objects in response data
+ * Use this if you prefer working with Date objects instead of strings
+ */
+export function transformDates<T>(obj: T): T {
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
+
+  if (typeof obj === "string" && ISO_DATE_REGEX.test(obj)) {
+    return new Date(obj) as unknown as T;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => transformDates(item)) as unknown as T;
+  }
+
+  if (typeof obj === "object") {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj)) {
+      result[key] = transformDates(value);
+    }
+    return result as T;
+  }
+
+  return obj;
+}
+
 /**
  * Axios instance configured with interceptors for auth
  */

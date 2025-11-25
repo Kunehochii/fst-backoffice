@@ -1,1 +1,7 @@
-export { useAuthStore, useIsAuthenticated, useSupabaseUser, useBusinessProfile, useAuthLoading } from "./auth.store";
+export {
+  useAuthStore,
+  useIsAuthenticated,
+  useSupabaseUser,
+  useBusinessProfile,
+  useAuthLoading,
+} from "./auth.store";
