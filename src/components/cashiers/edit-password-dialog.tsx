@@ -59,9 +59,7 @@ export function EditPasswordDialog({ cashier }: EditPasswordDialogProps) {
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>
-          <DialogDescription>
-            Set a new password for {cashier.username}
-          </DialogDescription>
+          <DialogDescription>Set a new password for {cashier.username}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -74,20 +72,14 @@ export function EditPasswordDialog({ cashier }: EditPasswordDialogProps) {
                   <FormControl>
                     <Input type="password" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Minimum 4 characters
-                  </FormDescription>
+                  <FormDescription>Minimum 4 characters</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setOpen(false)}
-              >
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button type="submit" disabled={editPassword.isPending}>

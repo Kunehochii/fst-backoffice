@@ -10,10 +10,8 @@ import { useCashiers, useDebounce } from "@/hooks";
 export default function CashiersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 300);
-  
-  const { data: cashiers, isLoading } = useCashiers(
-    debouncedSearch || undefined
-  );
+
+  const { data: cashiers, isLoading } = useCashiers(debouncedSearch || undefined);
 
   return (
     <div className="space-y-6">
@@ -24,9 +22,7 @@ export default function CashiersPage() {
             <Users className="h-6 w-6" />
             Cashiers
           </h1>
-          <p className="text-muted-foreground">
-            Manage your cashiers and their permissions
-          </p>
+          <p className="text-muted-foreground">Manage your cashiers and their permissions</p>
         </div>
         <CreateCashierDialog />
       </div>

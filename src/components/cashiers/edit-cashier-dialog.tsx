@@ -88,9 +88,7 @@ export function EditCashierDialog({ cashier }: EditCashierDialogProps) {
                   <FormControl>
                     <Input placeholder="Main Branch" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    The branch this cashier is assigned to
-                  </FormDescription>
+                  <FormDescription>The branch this cashier is assigned to</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -103,9 +101,7 @@ export function EditCashierDialog({ cashier }: EditCashierDialogProps) {
                 <FormItem>
                   <div className="mb-2">
                     <FormLabel>Permissions</FormLabel>
-                    <FormDescription>
-                      Select what this cashier can do
-                    </FormDescription>
+                    <FormDescription>Select what this cashier can do</FormDescription>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {Object.values(CashierPermissions).map((permission) => (
@@ -123,9 +119,7 @@ export function EditCashierDialog({ cashier }: EditCashierDialogProps) {
                                   if (checked) {
                                     field.onChange([...current, permission]);
                                   } else {
-                                    field.onChange(
-                                      current.filter((p) => p !== permission)
-                                    );
+                                    field.onChange(current.filter((p) => p !== permission));
                                   }
                                 }}
                               />
@@ -144,11 +138,7 @@ export function EditCashierDialog({ cashier }: EditCashierDialogProps) {
             />
 
             <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setOpen(false)}
-              >
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button type="submit" disabled={editCashier.isPending}>

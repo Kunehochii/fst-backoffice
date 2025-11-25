@@ -89,9 +89,7 @@ export function CreateCashierDialog() {
                   <FormControl>
                     <Input placeholder="cashier01" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    A unique username with no spaces
-                  </FormDescription>
+                  <FormDescription>A unique username with no spaces</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -106,9 +104,7 @@ export function CreateCashierDialog() {
                   <FormControl>
                     <Input placeholder="Main Branch" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    The branch this cashier is assigned to
-                  </FormDescription>
+                  <FormDescription>The branch this cashier is assigned to</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -123,9 +119,7 @@ export function CreateCashierDialog() {
                   <FormControl>
                     <Input type="password" placeholder="••••••••" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Minimum 4 characters for login
-                  </FormDescription>
+                  <FormDescription>Minimum 4 characters for login</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -138,16 +132,9 @@ export function CreateCashierDialog() {
                 <FormItem>
                   <FormLabel>Secure Code (6-digit PIN)</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="123456"
-                      maxLength={6}
-                      {...field}
-                    />
+                    <Input type="text" placeholder="123456" maxLength={6} {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Used for POS entry verification
-                  </FormDescription>
+                  <FormDescription>Used for POS entry verification</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -160,9 +147,7 @@ export function CreateCashierDialog() {
                 <FormItem>
                   <div className="mb-2">
                     <FormLabel>Permissions</FormLabel>
-                    <FormDescription>
-                      Select what this cashier can do
-                    </FormDescription>
+                    <FormDescription>Select what this cashier can do</FormDescription>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {Object.values(CashierPermissions).map((permission) => (
@@ -180,9 +165,7 @@ export function CreateCashierDialog() {
                                   if (checked) {
                                     field.onChange([...current, permission]);
                                   } else {
-                                    field.onChange(
-                                      current.filter((p) => p !== permission)
-                                    );
+                                    field.onChange(current.filter((p) => p !== permission));
                                   }
                                 }}
                               />
@@ -201,11 +184,7 @@ export function CreateCashierDialog() {
             />
 
             <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setOpen(false)}
-              >
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
               <Button type="submit" disabled={createCashier.isPending}>

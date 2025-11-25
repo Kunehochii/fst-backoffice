@@ -42,9 +42,7 @@ export function CashiersTable({ cashiers, isLoading }: CashiersTableProps) {
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <div className="text-muted-foreground">
           <p className="text-lg font-medium">No cashiers found</p>
-          <p className="text-sm">
-            Create your first cashier to get started
-          </p>
+          <p className="text-sm">Create your first cashier to get started</p>
         </div>
       </div>
     );
