@@ -55,3 +55,6 @@ export const STORAGE_KEYS = {
   AUTH_TOKEN: "auth_token",
   USER: "user",
 } as const;
+
+export const LOGIN_PAGE_IMAGE_URL =
+  "https://coolbackgrounds.imgix.net/18zyrwm4RhrbpPIlIGVR2u/f21e0bb64d51cbb695ce89583ed8a439/blue-trianglify.jpg?w=3840&q=60&auto=format,compress";

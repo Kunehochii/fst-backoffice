@@ -45,6 +45,10 @@ export async function updateSession(request: NextRequest) {
   // Check if the current route is public
   const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
 
+  // Special handling for reset password - allow access if there's a recovery session
+  // The reset password page needs the user to be partially authenticated (with recovery token)
+  const isResetPasswordPage = pathname === APP_ROUTES.AUTH.RESET_PASSWORD;
+
   // If user is not authenticated and trying to access a protected route
   if (!user && !isPublicRoute && pathname !== "/") {
     const url = request.nextUrl.clone();
@@ -52,8 +56,9 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // If user is authenticated and trying to access auth pages
-  if (user && isPublicRoute) {
+  // If user is authenticated and trying to access auth pages (except reset password)
+  // Reset password needs to be accessible when user has a recovery session
+  if (user && isPublicRoute && !isResetPasswordPage) {
     const url = request.nextUrl.clone();
     url.pathname = APP_ROUTES.DASHBOARD;
     return NextResponse.redirect(url);
