@@ -50,6 +50,7 @@ export const APP_ROUTES = {
   EMPLOYEES: "/dashboard/employees",
   PRODUCTS: "/dashboard/products",
   PRODUCTS_CASHIER: (cashierId: string) => `/dashboard/products/${cashierId}`,
+  BILLS: "/dashboard/bills",
   // Add more routes as needed
 } as const;
 
@@ -96,6 +97,12 @@ export const QUERY_KEYS = {
       filters,
     ],
     DETAIL: (id: string) => ["products", "detail", id],
+  },
+  BILLS: {
+    ALL: ["bills"],
+    LIST: (date: string) => ["bills", "list", { date }],
+    CASHIER: (cashierId: string, date: string) => ["bills", "cashier", cashierId, { date }],
+    DETAIL: (id: string) => ["bills", "detail", id],
   },
   // Add more query keys as needed
 } as const;

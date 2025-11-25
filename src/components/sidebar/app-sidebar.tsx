@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   LifeBuoy,
   Package,
+  Receipt,
   Send,
 } from "lucide-react";
 
@@ -46,6 +47,11 @@ const data = {
       title: "Products",
       url: "/dashboard/products",
       icon: Package,
+    },
+    {
+      title: "Bills",
+      url: "/dashboard/bills",
+      icon: Receipt,
     },
   ],
   navSecondary: [

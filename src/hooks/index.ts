@@ -32,4 +32,10 @@ export {
   useDeleteProduct,
   useTransferProduct,
 } from "./use-products";
+export {
+  useAllBillCounts,
+  useCashierBillCount,
+  useCreateOrUpdateBillCount,
+  getDateForApi,
+} from "./use-bills";
 export { useDebounce } from "./use-debounce";
