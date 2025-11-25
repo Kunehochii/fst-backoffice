@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronRight, type LucideIcon } from "lucide-react";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -16,6 +17,20 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
+/**
+ * Check if a route is active based on the current pathname
+ * - Exact match for dashboard root
+ * - Starts with match for other routes
+ */
+function isRouteActive(pathname: string, url: string): boolean {
+  // For dashboard root, require exact match to avoid highlighting when on sub-routes
+  if (url === "/dashboard") {
+    return pathname === "/dashboard";
+  }
+  // For other routes, check if pathname starts with the url
+  return pathname.startsWith(url);
+}
+
 export function NavMain({
   items,
 }: {
@@ -23,23 +38,25 @@ export function NavMain({
     title: string;
     url: string;
     icon: LucideIcon;
-    isActive?: boolean;
     items?: {
       title: string;
       url: string;
     }[];
   }[];
 }) {
+  const pathname = usePathname();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
+          const isActive = isRouteActive(pathname, item.url);
+
           // If no sub-items, render a simple link without dropdown
           if (!item.items?.length) {
             return (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
+                <SidebarMenuButton asChild tooltip={item.title} isActive={isActive}>
                   <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>
@@ -51,9 +68,9 @@ export function NavMain({
 
           // If has sub-items, render collapsible dropdown
           return (
-            <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
+            <Collapsible key={item.title} asChild defaultOpen={isActive}>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip={item.title}>
+                <SidebarMenuButton asChild tooltip={item.title} isActive={isActive}>
                   <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>
