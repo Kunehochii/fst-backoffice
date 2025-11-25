@@ -31,13 +31,29 @@ export interface AuthState {
 }
 
 /**
- * Cashier type (for reference, login happens in cashier app)
+ * Cashier permissions enum (matches backend)
+ */
+export enum CashierPermissions {
+  SALES = "SALES",
+  DELIVERIES = "DELIVERIES",
+  STOCKS = "STOCKS",
+  EDIT_PRICE = "EDIT_PRICE",
+  KAHON = "KAHON",
+  BILLS = "BILLS",
+  ATTACHMENTS = "ATTACHMENTS",
+  SALES_HISTORY = "SALES_HISTORY",
+  VOID = "VOID",
+}
+
+/**
+ * Cashier type with permissions
  */
 export interface Cashier {
   id: string;
   username: string;
   branchName: string;
   businessId: string;
+  permissions: CashierPermissions[];
   createdAt: string;
   updatedAt: string;
 }

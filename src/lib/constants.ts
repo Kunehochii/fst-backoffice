@@ -7,6 +7,12 @@ export const API_ROUTES = {
     ME: "/auth/business/me",
     CASHIER_CREATE: "/auth/cashier/create",
     CASHIER_LOGIN: "/auth/cashier/login",
+    CASHIER_EDIT: (id: string) => `/auth/cashier/edit/${id}`,
+    CASHIER_EDIT_PASSWORD: (id: string) => `/auth/cashier/edit-password/${id}`,
+  },
+  CASHIER: {
+    GET_BY_ID: (id: string) => `/cashier/${id}`,
+    GET_ALL: "/cashier",
   },
   // Add more routes as needed
 } as const;
@@ -24,6 +30,7 @@ export const APP_ROUTES = {
     CALLBACK: "/auth/callback",
   },
   DASHBOARD: "/dashboard",
+  CASHIERS: "/dashboard/cashiers",
   // Add more routes as needed
 } as const;
 
@@ -45,6 +52,11 @@ export const QUERY_KEYS = {
   AUTH: {
     USER: ["auth", "user"],
     SESSION: ["auth", "session"],
+  },
+  CASHIERS: {
+    ALL: ["cashiers"],
+    LIST: (branchName?: string) => ["cashiers", "list", { branchName }],
+    DETAIL: (id: string) => ["cashiers", "detail", id],
   },
   // Add more query keys as needed
 } as const;
