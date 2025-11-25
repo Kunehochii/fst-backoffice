@@ -21,6 +21,15 @@ export const API_ROUTES = {
     UPDATE: (id: string) => `/employees/business/${id}`,
     DELETE: (id: string) => `/employees/business/${id}`,
   },
+  PRODUCTS: {
+    GET_ALL: "/products",
+    GET_BY_ID: (id: string) => `/products/${id}`,
+    GET_BY_CASHIER: (cashierId: string) => `/products/business/cashier/${cashierId}`,
+    CREATE: "/products",
+    UPDATE: (id: string) => `/products/${id}`,
+    DELETE: (id: string) => `/products/${id}`,
+    TRANSFER: "/products/transfer",
+  },
   // Add more routes as needed
 } as const;
 
@@ -39,6 +48,8 @@ export const APP_ROUTES = {
   DASHBOARD: "/dashboard",
   CASHIERS: "/dashboard/cashiers",
   EMPLOYEES: "/dashboard/employees",
+  PRODUCTS: "/dashboard/products",
+  PRODUCTS_CASHIER: (cashierId: string) => `/dashboard/products/${cashierId}`,
   // Add more routes as needed
 } as const;
 
@@ -70,6 +81,21 @@ export const QUERY_KEYS = {
     ALL: ["employees"],
     LIST: (cashierId?: string) => ["employees", "list", { cashierId }],
     DETAIL: (id: string) => ["employees", "detail", id],
+  },
+  PRODUCTS: {
+    ALL: ["products"],
+    ALL_BUSINESS: (filters?: { category?: string; productSearch?: string }) => [
+      "products",
+      "business",
+      filters,
+    ],
+    LIST: (cashierId: string, filters?: { category?: string; productSearch?: string }) => [
+      "products",
+      "cashier",
+      cashierId,
+      filters,
+    ],
+    DETAIL: (id: string) => ["products", "detail", id],
   },
   // Add more query keys as needed
 } as const;

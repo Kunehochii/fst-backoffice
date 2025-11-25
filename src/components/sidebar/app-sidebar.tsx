@@ -3,7 +3,14 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BadgeDollarSign, IdCardLanyard, LayoutDashboard, LifeBuoy, Send } from "lucide-react";
+import {
+  BadgeDollarSign,
+  IdCardLanyard,
+  LayoutDashboard,
+  LifeBuoy,
+  Package,
+  Send,
+} from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
@@ -34,6 +41,11 @@ const data = {
       title: "Employees",
       url: "/dashboard/employees",
       icon: IdCardLanyard,
+    },
+    {
+      title: "Products",
+      url: "/dashboard/products",
+      icon: Package,
     },
   ],
   navSecondary: [

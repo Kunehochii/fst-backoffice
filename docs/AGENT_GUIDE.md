@@ -364,6 +364,93 @@ const response = await apiClient.get("/sales-check", {
 
 ---
 
+## Decimal/String Conversion
+
+### CRITICAL: Backend Expects Strings
+
+The NestJS backend expects all decimal values (prices, stock, profit) as **strings** in request bodies. These are parsed as `Decimal` on the backend using Prisma.
+
+### Decimal Utilities
+
+```typescript
+import {
+  toDecimalString,
+  fromDecimalString,
+  fromDecimalStringOrDefault,
+  createProductToApi,
+  updateProductToApi,
+} from "@/lib/decimal";
+
+// Convert number to string for API
+toDecimalString(123.45); // "123.45"
+toDecimalString(null); // null
+
+// Convert string from API to number
+fromDecimalString("123.45"); // 123.45
+fromDecimalString(null); // null
+
+// With default value
+fromDecimalStringOrDefault("123.45", 0); // 123.45
+fromDecimalStringOrDefault(null, 0); // 0
+
+// Convert entire product form to API format
+const apiData = createProductToApi({
+  name: "Rice",
+  picture: "https://example.com/image.jpg",
+  category: "NORMAL",
+  cashierId: "xxx",
+  sackPrices: [
+    {
+      price: 1500, // number in form
+      type: "FIFTY_KG",
+      stock: 100,
+      profit: 50,
+    },
+  ],
+  perKiloPrice: {
+    price: 45,
+    stock: 500,
+    profit: 5,
+  },
+});
+// Result: all numeric values converted to strings
+```
+
+### Form to API Pattern
+
+```typescript
+// In hooks/use-products.ts
+export function useCreateProduct() {
+  return useMutation({
+    mutationFn: async (data: CreateProductInput) => {
+      // Convert form data (numbers) to API format (strings)
+      const apiData = createProductToApi(data);
+      const response = await apiClient.post("/products", apiData);
+      return response.data;
+    },
+  });
+}
+```
+
+### API to Form Pattern
+
+```typescript
+// When editing, convert API data back to form format
+function productToFormData(product: Product): UpdateProductInput {
+  return {
+    name: product.name,
+    sackPrices: product.sackPrices.map((sp) => ({
+      id: sp.id,
+      price: fromDecimalString(sp.price) ?? 0, // string to number
+      stock: fromDecimalString(sp.stock) ?? 0,
+      profit: fromDecimalString(sp.profit),
+    })),
+  };
+}
+```
+
+---
+
 ## React Query Patterns
 
 ### Query Example

@@ -23,4 +23,13 @@ export {
   useUpdateEmployee,
   useDeleteEmployee,
 } from "./use-employees";
+export {
+  useProducts,
+  useAllProducts,
+  useProduct,
+  useCreateProduct,
+  useUpdateProduct,
+  useDeleteProduct,
+  useTransferProduct,
+} from "./use-products";
 export { useDebounce } from "./use-debounce";

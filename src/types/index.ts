@@ -1,3 +1,4 @@
 export * from "./auth.types";
 export * from "./api.types";
 export * from "./employee.types";
+export * from "./product.types";
