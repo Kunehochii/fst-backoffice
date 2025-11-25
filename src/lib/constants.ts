@@ -39,6 +39,10 @@ export const API_ROUTES = {
     GET_ALL: "/profit",
     GET_ALL_CASHIERS: "/profit/cashiers/all",
   },
+  DELIVERY: {
+    GET_BUSINESS: "/delivery/business",
+    GET_BY_ID: (id: string) => `/delivery/${id}`,
+  },
   // Add more routes as needed
 } as const;
 
@@ -61,6 +65,7 @@ export const APP_ROUTES = {
   PRODUCTS_CASHIER: (cashierId: string) => `/dashboard/products/${cashierId}`,
   BILLS: "/dashboard/bills",
   SALES_CHECK: "/dashboard/sales-check",
+  DELIVERY: "/dashboard/delivery",
   // Add more routes as needed
 } as const;
 
@@ -136,6 +141,12 @@ export const QUERY_KEYS = {
       cashierId,
       filters,
     ],
+  },
+  DELIVERY: {
+    ALL: ["delivery"],
+    LIST: (filters?: Record<string, unknown>) => ["delivery", "list", filters],
+    BUSINESS: (filters?: Record<string, unknown>) => ["delivery", "business", filters],
+    DETAIL: (id: string) => ["delivery", "detail", id],
   },
   // Add more query keys as needed
 } as const;

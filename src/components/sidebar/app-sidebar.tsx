@@ -13,6 +13,7 @@ import {
   Send,
   ShoppingCart,
   TrendingUp,
+  Truck,
 } from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
@@ -49,6 +50,11 @@ const data = {
       title: "Products",
       url: "/dashboard/products",
       icon: Package,
+    },
+    {
+      title: "Deliveries",
+      url: "/dashboard/delivery",
+      icon: Truck,
     },
     {
       title: "Bills",
