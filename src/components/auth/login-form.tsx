@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { FieldDescription, FieldGroup, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Spinner } from "@/components/ui/spinner";
 import { useLogin, useOAuthLogin } from "@/hooks";
 import { loginSchema, type LoginInput } from "@/schemas";
@@ -90,8 +91,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                         </Link>
                       </div>
                       <FormControl>
-                        <Input
-                          type="password"
+                        <PasswordInput
                           autoComplete="current-password"
                           disabled={isLoading}
                           {...field}

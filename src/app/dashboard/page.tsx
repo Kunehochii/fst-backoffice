@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Building2, Mail, Calendar, User } from "lucide-react";
+import { useEffect } from "react";
 
 export default function DashboardPage() {
   const { business, user, isLoading, isAuthenticated } = useBusiness();

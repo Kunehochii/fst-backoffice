@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { FieldDescription, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Spinner } from "@/components/ui/spinner";
 import { useResetPassword } from "@/hooks";
 import { resetPasswordSchema, type ResetPasswordInput } from "@/schemas";
@@ -68,10 +69,10 @@ export function ResetPasswordForm({ className, ...props }: React.ComponentProps<
                     <FormItem>
                       <FormLabel>New Password</FormLabel>
                       <FormControl>
-                        <Input
-                          type="password"
+                        <PasswordInput
                           autoComplete="new-password"
                           disabled={isLoading}
+                          showRequirements
                           {...field}
                         />
                       </FormControl>
@@ -87,8 +88,7 @@ export function ResetPasswordForm({ className, ...props }: React.ComponentProps<
                     <FormItem>
                       <FormLabel>Confirm New Password</FormLabel>
                       <FormControl>
-                        <Input
-                          type="password"
+                        <PasswordInput
                           autoComplete="new-password"
                           disabled={isLoading}
                           {...field}
@@ -98,10 +98,6 @@ export function ResetPasswordForm({ className, ...props }: React.ComponentProps<
                     </FormItem>
                   )}
                 />
-
-                <p className="text-muted-foreground text-sm -mt-4">
-                  Must be at least 6 characters long.
-                </p>
 
                 <Button type="submit" disabled={isLoading} className="w-full">
                   {isLoading ? (

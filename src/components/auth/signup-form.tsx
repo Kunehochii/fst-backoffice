@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { FieldDescription, FieldGroup, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Spinner } from "@/components/ui/spinner";
 import { useSignup, useOAuthLogin } from "@/hooks";
 import { signupSchema, type SignupInput } from "@/schemas";
@@ -104,47 +105,42 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                   )}
                 />
 
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            autoComplete="new-password"
-                            disabled={isLoading}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirm Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            autoComplete="new-password"
-                            disabled={isLoading}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <p className="text-muted-foreground text-sm -mt-4">
-                  Must be at least 6 characters long.
-                </p>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          autoComplete="new-password"
+                          disabled={isLoading}
+                          showRequirements
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          autoComplete="new-password"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <Button type="submit" disabled={isLoading} className="w-full">
                   {isLoading ? (
