@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { LayoutDashboard, LifeBuoy, Send, Users } from "lucide-react";
+import { LayoutDashboard, LifeBuoy, Send, Users, Users2 } from "lucide-react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
 import { NavSecondary } from "@/components/sidebar/nav-secondary";
@@ -29,6 +29,11 @@ const data = {
       title: "Cashiers",
       url: "/dashboard/cashiers",
       icon: Users,
+    },
+    {
+      title: "Employees",
+      url: "/dashboard/employees",
+      icon: Users2,
     },
   ],
   navSecondary: [

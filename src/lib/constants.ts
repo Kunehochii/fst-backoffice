@@ -14,6 +14,13 @@ export const API_ROUTES = {
     GET_BY_ID: (id: string) => `/cashier/${id}`,
     GET_ALL: "/cashier",
   },
+  EMPLOYEES: {
+    GET_ALL: "/employees/business",
+    GET_BY_ID: (id: string) => `/employees/business/${id}`,
+    CREATE: "/employees/business",
+    UPDATE: (id: string) => `/employees/business/${id}`,
+    DELETE: (id: string) => `/employees/business/${id}`,
+  },
   // Add more routes as needed
 } as const;
 
@@ -31,6 +38,7 @@ export const APP_ROUTES = {
   },
   DASHBOARD: "/dashboard",
   CASHIERS: "/dashboard/cashiers",
+  EMPLOYEES: "/dashboard/employees",
   // Add more routes as needed
 } as const;
 
@@ -57,6 +65,11 @@ export const QUERY_KEYS = {
     ALL: ["cashiers"],
     LIST: (branchName?: string) => ["cashiers", "list", { branchName }],
     DETAIL: (id: string) => ["cashiers", "detail", id],
+  },
+  EMPLOYEES: {
+    ALL: ["employees"],
+    LIST: (cashierId?: string) => ["employees", "list", { cashierId }],
+    DETAIL: (id: string) => ["employees", "detail", id],
   },
   // Add more query keys as needed
 } as const;

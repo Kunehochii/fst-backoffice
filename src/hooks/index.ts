@@ -15,4 +15,12 @@ export {
   useEditCashier,
   useEditCashierPassword,
 } from "./use-cashiers";
+export {
+  useEmployees,
+  useEmployeesByCashier,
+  useEmployee,
+  useCreateEmployee,
+  useUpdateEmployee,
+  useDeleteEmployee,
+} from "./use-employees";
 export { useDebounce } from "./use-debounce";
