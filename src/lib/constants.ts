@@ -4,6 +4,7 @@
 export const API_ROUTES = {
   AUTH: {
     SYNC_PROFILE: "/auth/business/sync-profile",
+    ME: "/auth/business/me",
     CASHIER_CREATE: "/auth/cashier/create",
     CASHIER_LOGIN: "/auth/cashier/login",
   },

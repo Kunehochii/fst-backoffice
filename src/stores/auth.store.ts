@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from "react";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { User } from "@supabase/supabase-js";
@@ -30,6 +31,9 @@ const initialState = {
   isInitialized: false,
   isAuthenticated: false,
 };
+
+// Track if store has been rehydrated from localStorage
+let hasHydrated = false;
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -83,9 +87,36 @@ export const useAuthStore = create<AuthState>()(
         // Don't persist supabaseUser as it contains sensitive tokens
         // Supabase handles its own session persistence
       }),
+      onRehydrateStorage: () => (state) => {
+        hasHydrated = true;
+        // If we have a persisted businessProfile, we're likely authenticated
+        // The AuthProvider will verify this with Supabase
+        if (state?.businessProfile) {
+          // Keep isLoading true until AuthProvider verifies the session
+          useAuthStore.setState({ isLoading: true });
+        }
+      },
     }
   )
 );
+
+/**
+ * Check if the store has been rehydrated from localStorage
+ * Uses useSyncExternalStore for proper SSR/hydration handling
+ */
+export const useHasHydrated = () => {
+  return useSyncExternalStore(
+    // Subscribe function
+    (callback) => {
+      const unsubscribe = useAuthStore.persist.onFinishHydration(callback);
+      return unsubscribe;
+    },
+    // getSnapshot - client
+    () => hasHydrated,
+    // getServerSnapshot - SSR (always false on server)
+    () => false
+  );
+};
 
 /**
  * Selector hooks for better performance

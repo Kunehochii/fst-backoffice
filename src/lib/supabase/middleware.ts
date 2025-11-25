@@ -40,8 +40,6 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log(user);
-
   const pathname = request.nextUrl.pathname;
 
   // Check if the current route is public
