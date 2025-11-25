@@ -49,6 +49,20 @@ export const API_ROUTES = {
     CREATE: "/upload/business",
     DELETE: (id: string) => `/upload/${id}`,
   },
+  SHEET: {
+    BUSINESS_KAHON: "/sheet/business/kahon",
+    BUSINESS_INVENTORY: "/sheet/business/inventory",
+    BUSINESS_ADD_ROW: "/sheet/business/row",
+    BUSINESS_ADD_ROWS: "/sheet/business/rows",
+    BUSINESS_DELETE_ROW: (id: string) => `/sheet/business/row/${id}`,
+    BUSINESS_BATCH_POSITIONS: "/sheet/business/rows/positions",
+    BUSINESS_REORDER_ROW: "/sheet/business/row/reorder",
+    BUSINESS_ADD_CELL: "/sheet/business/cell",
+    BUSINESS_ADD_CELLS: "/sheet/business/cells",
+    BUSINESS_UPDATE_CELL: (id: string) => `/sheet/business/cell/${id}`,
+    BUSINESS_UPDATE_CELLS: "/sheet/business/cells",
+    BUSINESS_DELETE_CELL: (id: string) => `/sheet/business/cell/${id}`,
+  },
   // Add more routes as needed
 } as const;
 
@@ -72,6 +86,7 @@ export const APP_ROUTES = {
   BILLS: "/dashboard/bills",
   SALES_CHECK: "/dashboard/sales-check",
   DELIVERY: "/dashboard/delivery",
+  SHEET: "/dashboard/sheet",
   // Add more routes as needed
 } as const;
 
@@ -158,6 +173,13 @@ export const QUERY_KEYS = {
     ALL: ["attachments"],
     LIST: (type?: string) => ["attachments", "list", { type }],
     DETAIL: (id: string) => ["attachments", "detail", id],
+  },
+  SHEET: {
+    ALL: ["sheet"],
+    BUSINESS_KAHON: ["sheet", "business", "kahon"],
+    BUSINESS_INVENTORY: ["sheet", "business", "inventory"],
+    CASHIER_KAHON: (cashierId: string) => ["sheet", "cashier", cashierId, "kahon"],
+    CASHIER_INVENTORY: (cashierId: string) => ["sheet", "cashier", cashierId, "inventory"],
   },
   // Add more query keys as needed
 } as const;

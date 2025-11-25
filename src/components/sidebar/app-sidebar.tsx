@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   BadgeDollarSign,
+  FileSpreadsheet,
   IdCardLanyard,
   LayoutDashboard,
   LifeBuoy,
@@ -71,6 +72,11 @@ const data = {
       title: "Profit",
       url: "/dashboard/profit",
       icon: TrendingUp,
+    },
+    {
+      title: "Sheets",
+      url: "/dashboard/sheet",
+      icon: FileSpreadsheet,
     },
     {
       title: "Attachments",

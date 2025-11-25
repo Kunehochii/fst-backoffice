@@ -7,3 +7,4 @@ export * from "./sales.types";
 export * from "./profit.types";
 export * from "./delivery.types";
 export * from "./attachment.types";
+export * from "./sheet.types";

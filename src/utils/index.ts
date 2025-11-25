@@ -271,3 +271,9 @@ export function isServer(): boolean {
 export function isClient(): boolean {
   return typeof window !== "undefined";
 }
+
+// =============================================================================
+// SHEET UTILITIES (Re-export for convenience)
+// =============================================================================
+
+export * from "./sheet-utils";
