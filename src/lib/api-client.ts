@@ -82,9 +82,7 @@ apiClient.interceptors.response.use(
 
     // Extract error message
     const errorMessage =
-      error.response?.data?.message ||
-      error.message ||
-      "An unexpected error occurred";
+      error.response?.data?.message || error.message || "An unexpected error occurred";
 
     // You can add toast notifications here if needed
     console.error("API Error:", errorMessage);
