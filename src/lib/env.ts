@@ -16,11 +16,11 @@ const envSchema = z.object({
 
 /**
  * Validate environment variables
- * Throws an error if validation fails (skipped in CI)
+ * Throws an error if validation fails (skipped when SKIP_ENV_VALIDATION is set)
  */
 function validateEnv() {
-  // Skip validation in CI environment
-  if (process.env.CI === "true") {
+  // Skip validation when SKIP_ENV_VALIDATION is set
+  if (process.env.SKIP_ENV_VALIDATION === "true") {
     return {
       NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
       NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
