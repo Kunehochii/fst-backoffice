@@ -10,6 +10,7 @@ import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useCashiers, useDebounce, useBusiness } from "@/hooks";
 import { useProfitRealtimeSubscription } from "@/hooks/use-profit";
+import { ProfitSummaryCard } from "./profit-summary-card";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import type { Cashier } from "@/types/auth.types";
@@ -75,6 +76,9 @@ export function ProfitPage({ selectedDate, onDateChange, onSelectCashier }: Prof
           </PopoverContent>
         </Popover>
       </div>
+
+      {/* Profit Summary Card */}
+      <ProfitSummaryCard selectedDate={selectedDate} />
 
       {/* Branch Selection Card */}
       <Card>
