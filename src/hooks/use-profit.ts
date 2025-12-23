@@ -21,6 +21,7 @@ export const PROFIT_QUERY_KEYS = {
   ALL: ["profit"],
   LIST: (filters?: ProfitFilters) => ["profit", "list", filters],
   ALL_CASHIERS: (filters?: ProfitFilters) => ["profit", "cashiers", filters],
+  DATE_RANGE: (startDate: string, endDate: string) => ["profit", "range", startDate, endDate],
   CASHIER: (cashierId: string, filters?: ProfitFilters) => [
     "profit",
     "cashier",
@@ -45,6 +46,27 @@ export function buildDayFilters(
 }
 
 /**
+ * Build filters with custom date range
+ */
+export function buildDateRangeFilters(
+  start: Date,
+  end: Date,
+  additionalFilters?: Partial<ProfitFilters>
+): ProfitFilters {
+  const startOfDay = new Date(start);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(end);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  return {
+    startDate: startOfDay.toISOString(),
+    endDate: endOfDay.toISOString(),
+    ...additionalFilters,
+  };
+}
+
+/**
  * Hook to fetch all profits for the business (grouped by product)
  */
 export function useProfit(date: Date, additionalFilters?: Partial<ProfitFilters>) {
@@ -52,6 +74,27 @@ export function useProfit(date: Date, additionalFilters?: Partial<ProfitFilters>
 
   return useQuery({
     queryKey: PROFIT_QUERY_KEYS.LIST(filters),
+    queryFn: async () => {
+      const response = await apiClient.get<ProfitResponse>(PROFIT_API_ROUTES.GET_ALL, {
+        params: filters,
+      });
+      return response.data;
+    },
+  });
+}
+
+/**
+ * Hook to fetch profits for a date range (e.g., last 30 days)
+ */
+export function useProfitDateRange(
+  startDate: Date,
+  endDate: Date,
+  additionalFilters?: Partial<ProfitFilters>
+) {
+  const filters = buildDateRangeFilters(startDate, endDate, additionalFilters);
+
+  return useQuery({
+    queryKey: PROFIT_QUERY_KEYS.DATE_RANGE(filters.startDate!, filters.endDate!),
     queryFn: async () => {
       const response = await apiClient.get<ProfitResponse>(PROFIT_API_ROUTES.GET_ALL, {
         params: filters,
